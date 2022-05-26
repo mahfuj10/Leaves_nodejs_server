@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const http = require('http')
 const { Server } = require('socket.io')
 const cors = require("cors");
@@ -24,7 +24,11 @@ const client = new MongoClient(uri, {
 
 // socket.io connection
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, {
+    cors: {
+        origin: "*"
+    }
+});
 
 io.on("connection", (socket) => {
 
@@ -46,13 +50,18 @@ io.on("connection", (socket) => {
         socket.to(data.roomId).emit("deleteMessage", data);
     })
 
+    socket.on('chatSound', function () {
+        io.emit('play');
+    });
 
     const users = {};
 
     socket.on('login', function (data) {
+        // ... users[socket.id] = data.loginUser?.uid
+        // ... socket.broadcast.emit('user-connected', data.loginUser);
         // const uid = { userId: data?.userId };
-        users[socket.id] = data.loginUser?.uid
-        socket.broadcast.emit('user-connected', data.loginUser);
+        // users[socket.id] = data.loginUser?.uid
+        // socket.broadcast.emit('user-connected', data.loginUser);
 
         // socket.broadcast.emit("activeusers", users);
     });
@@ -64,8 +73,8 @@ io.on("connection", (socket) => {
     })
 
     socket.on('disconnect', () => {
-        socket.broadcast.emit('user-disconnected', users[socket.id])
-        delete users[socket.id]
+        socket.broadcast.emit('user-disconnected', users[socket.id]);
+        delete users[socket.id];
         console.log(`User disconnected ${socket.id}`);
     });
 

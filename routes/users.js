@@ -92,6 +92,20 @@ router.get('/checkuser/:uid', async (req, res) => {
     }
 });
 
-// delete contract user
+// update user photourl
+router.put('/updateprofile/:uid', async (req, res) => {
+    try {
+        const userId = req.params.uid;
+        const query = { uid: userId };
+        const updateDoc = {
+            $set: { photoURL: req.body.photoURL }
+        };
+        console.log(userId, req.body);
+        res.send(await usersCollection.updateOne(query, updateDoc));
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
 
 module.exports = router;

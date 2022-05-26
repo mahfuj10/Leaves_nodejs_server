@@ -17,7 +17,7 @@ client.connect();
 
 router.post('/', async (req, res) => {
     try {
-
+        res.send(await usersChat.insertOne(req.body));
     }
     catch (err) {
         console.log(err);
@@ -38,11 +38,11 @@ router.get('/:room', async (req, res) => {
 });
 
 // get all data
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     try {
         res.send(await usersChat.find({}).toArray());
     } catch (err) {
-        next(err)
+        console.log(err?.message)
     }
 });
 
