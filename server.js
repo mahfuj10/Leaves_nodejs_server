@@ -131,5 +131,5 @@ app.get("/", async (req, res) => {
 
 
 server.listen(port, () => {
-    console.log("my server is runningin port 5000")
+    console.log("Leaves server is running...")
 })

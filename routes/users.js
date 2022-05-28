@@ -107,5 +107,58 @@ router.put('/updateprofile/:uid', async (req, res) => {
     }
 });
 
+// update user name
+router.put('/updatename/:uid', async (req, res) => {
+    try {
+        const userId = req.params.uid;
+        console.log(userId);
+        res.send(await usersCollection.updateOne({ uid: userId }, {
+            $set: { displayName: req.body.name }
+        }));
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// update user phone number
+router.put('/updatennumber/:uid', async (req, res) => {
+    try {
+        const userId = req.params.uid;
+        res.send(await usersCollection.updateOne({ uid: userId }, {
+            $set: { phone: req.body.phone }
+        }));
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+
+// update user address
+router.put('/updatenaddress/:uid', async (req, res) => {
+    try {
+        const userId = req.params.uid;
+        console.log(req.body);
+        res.send(await usersCollection.updateOne({ uid: userId }, {
+            $set: { adress: req.body.adress }
+        }));
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+
+// update user profession
+router.put('/updatenprofession/:uid', async (req, res) => {
+    try {
+        const userId = req.params.uid;
+        console.log(req.body);
+        res.send(await usersCollection.updateOne({ uid: userId }, {
+            $set: { profession: req.body.profession }
+        }));
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
 
 module.exports = router;
