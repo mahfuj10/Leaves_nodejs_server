@@ -34,11 +34,14 @@ io.on("connection", (socket) => {
 
     console.log("User connected with ", socket.id);
 
+
     socket.on("join_room", (data) => {
         socket.join(data);
     })
 
     socket.on("send_message", (data) => {
+
+        console.log(data);
         socket.to(data.roomId).emit("recive_message", data);
     })
 
@@ -47,7 +50,8 @@ io.on("connection", (socket) => {
     })
 
     socket.on('deleteMessage', function (data) {
-        socket.to(data.roomId).emit("deleteMessage", data);
+        console.log(data.roomId);
+        socket.broadcast.emit("deleteMessage", data);
     })
 
     socket.on('chatSound', function () {
@@ -75,6 +79,9 @@ io.on("connection", (socket) => {
     socket.on('disconnect', () => {
         socket.broadcast.emit('user-disconnected', users[socket.id]);
         delete users[socket.id];
+        // socket.removeAllListeners('send_message');
+        // socket.removeAllListeners('disconnect');
+        // io.removeAllListeners('connection');
         console.log(`User disconnected ${socket.id}`);
     });
 
@@ -132,4 +139,4 @@ app.get("/", async (req, res) => {
 
 server.listen(port, () => {
     console.log("Leaves server is running...")
-})
+});
