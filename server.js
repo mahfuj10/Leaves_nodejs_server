@@ -61,8 +61,8 @@ io.on("connection", (socket) => {
     const users = {};
 
     socket.on('login', function (data) {
-        // ... users[socket.id] = data.loginUser?.uid
-        // ... socket.broadcast.emit('user-connected', data.loginUser);
+        users[socket.id] = data.loginUser?.uid
+        socket.broadcast.emit('user-connected', data.loginUser);
         // const uid = { userId: data?.userId };
         // users[socket.id] = data.loginUser?.uid
         // socket.broadcast.emit('user-connected', data.loginUser);
@@ -76,7 +76,6 @@ io.on("connection", (socket) => {
     });
 
     socket.on('joinedgroup', function (data) {
-        console.log(data);
         // socket.join(data.createdAt);
         socket.broadcast.emit('joinedgroup', data);
         // console.log('user joind group with', data.createdAt)
