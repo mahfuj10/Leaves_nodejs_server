@@ -73,8 +73,14 @@ io.on("connection", (socket) => {
 
     socket.on('addedUser', function (data) {
         socket.emit('addedUser', data);
-        console.log(data)
-    })
+    });
+
+    socket.on('joinedgroup', function (data) {
+        console.log(data);
+        // socket.join(data.createdAt);
+        socket.broadcast.emit('joinedgroup', data);
+        // console.log('user joind group with', data.createdAt)
+    });
 
     socket.on('disconnect', () => {
         socket.broadcast.emit('user-disconnected', users[socket.id]);
